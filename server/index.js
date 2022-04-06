@@ -2,23 +2,28 @@ import express from 'express';
 import * as http from 'http';
 import WebSocket, { WebSocketServer } from 'ws';
 
+const port = process.env.PORT || 3000;
+const app = express();
+
 // npm i express http nodemon ws
 // npx nodemon index.js
 
-const port = process.env.PORT || 3000;
+// git add .
+// git commit -m "init"
+// git push heroku main
+// heroku logs --tail
 
-const wss = new WebSocketServer({ port: port });
+// const wss = new WebSocketServer({ port: port });
 
-//const app = express();
-//const server = http.createServer(app);
-//const wss = new WebSocketServer({ server: server });
+const server = http.createServer(app);
+const wss = new WebSocketServer({ server: server });
 
 wss.on('connection', function connection(ws) {
-    //console.log('New Client Connected');
+    console.log('New Client Connected');
     ws.send('Connected to WebSocket');
     ws.on('message', (rawData) => {
         const data = rawData.toString();
-        // console.log('Received message from client:', data);
+        console.log('Received message from client:', data);
 
         // ws.send(`Server recieved message: ${data}`);
 
@@ -30,10 +35,12 @@ wss.on('connection', function connection(ws) {
     });
 });
 
-// app.get('/', async (req, res) => {
-//     res.send('hello');
-// });
+app.get('/', async (req, res) => {
+    res.send('websocket website');
+});
 
-// server.listen(port, () =>
-//     console.log(`Listening on port ${port}.`),
-// );
+server.listen(port, () =>
+    console.log(`Listening on port ${port}.`),
+);
+
+

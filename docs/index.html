@@ -16,8 +16,14 @@
     <script>
       // Create WebSocket connection.
       const port = 3000;
-      const socket = new WebSocket(`ws://localhost:${port}`);
-
+      const url = "ws://immense-mountain-28639.herokuapp.com";
+      //const url = `ws://localhost:${port}`;
+      const socket = new WebSocket(url);
+      socket.onerror = (error) => {
+        console.log("socket", error);
+        document.getElementById("incomingMessage").value =
+          "Failed to connect to Websocket Server";
+      };
       // Connection opened
       socket.addEventListener("open", (event) => {
         // console.log("connected to websocket server");
