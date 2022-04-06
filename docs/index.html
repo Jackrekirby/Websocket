@@ -12,11 +12,12 @@
     <button onclick="sendMessage();">Send</button>
     <h1>Incoming Message</h1>
     <textarea id="incomingMessage" readonly></textarea>
+    <p>Version 0.1</p>
 
     <script>
       // Create WebSocket connection.
       const port = 3000;
-      const url = "ws://immense-mountain-28639.herokuapp.com";
+      const url = "wss://immense-mountain-28639.herokuapp.com";
       //const url = `ws://localhost:${port}`;
       const socket = new WebSocket(url);
       socket.onerror = (error) => {
