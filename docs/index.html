@@ -1,0 +1,40 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Outgoing Message</h1>
+    <textarea id="outgoingMessage"></textarea>
+    <button onclick="sendMessage();">Send</button>
+    <h1>Incoming Message</h1>
+    <textarea id="incomingMessage" readonly></textarea>
+
+    <script>
+      // Create WebSocket connection.
+      const port = 3000;
+      const socket = new WebSocket(`ws://localhost:${port}`);
+
+      // Connection opened
+      socket.addEventListener("open", (event) => {
+        // console.log("connected to websocket server");
+      });
+
+      // Listen for messages
+      socket.addEventListener("message", (event) => {
+        // console.log("Message from server:", event.data);
+        document.getElementById("incomingMessage").value = event.data;
+      });
+
+      function sendMessage() {
+        const message = document.getElementById("outgoingMessage").value;
+        document.getElementById("outgoingMessage").value = "";
+        //console.log("sending message:", message);
+        socket.send(message);
+      }
+    </script>
+  </body>
+</html>
