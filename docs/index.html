@@ -12,9 +12,12 @@
     <button onclick="sendMessage();">Send</button>
     <h1>Incoming Message</h1>
     <textarea id="incomingMessage" readonly></textarea>
-    <p>Version 0.1</p>
+    <p>Version 0.2</p>
 
     <script>
+      const inMsgEle = document.getElementById("incomingMessage");
+      const outMsgEle = document.getElementById("outgoingMessage");
+
       // Create WebSocket connection.
       const port = 3000;
       const url = "wss://immense-mountain-28639.herokuapp.com";
@@ -22,9 +25,13 @@
       const socket = new WebSocket(url);
       socket.onerror = (error) => {
         console.log("socket", error);
-        document.getElementById("incomingMessage").value =
-          "Failed to connect to Websocket Server";
+        inMsgEle.value = "Failed to connect to Websocket Server";
       };
+
+      addEventListener("close", (event) => {
+        inMsgEle.value = "Connection Closed";
+      });
+
       // Connection opened
       socket.addEventListener("open", (event) => {
         // console.log("connected to websocket server");
@@ -33,12 +40,12 @@
       // Listen for messages
       socket.addEventListener("message", (event) => {
         // console.log("Message from server:", event.data);
-        document.getElementById("incomingMessage").value = event.data;
+        inMsgEle.value = event.data;
       });
 
       function sendMessage() {
-        const message = document.getElementById("outgoingMessage").value;
-        document.getElementById("outgoingMessage").value = "";
+        const message = outMsgEle.value;
+        outMsgEle.value = "";
         //console.log("sending message:", message);
         socket.send(message);
       }
